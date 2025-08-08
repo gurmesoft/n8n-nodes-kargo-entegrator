@@ -1,0 +1,47 @@
+{
+	"displayName": "Kargo Entegratör",
+	"name": "kargoEntegrator",
+	"icon": "file:kargoentegrator.svg",
+	"group": ["transform"],
+	"version": 1,
+	"subtitle": "={{$parameter['operation'] + ': ' + $parameter['resource']}}",
+	"description": "Interact with Kargo Entegratör API for shipment management",
+	"defaults": {
+		"name": "Kargo Entegratör"
+	},
+	"inputs": ["main"],
+	"outputs": ["main"],
+	"credentials": [
+		{
+			"name": "kargoEntegratorApi",
+			"required": true
+		}
+	],
+	"properties": [
+		{
+			"displayName": "Resource",
+			"name": "resource",
+			"type": "options",
+			"noDataExpression": true,
+			"options": [
+				{
+					"name": "Shipment",
+					"value": "shipment",
+					"description": "Manage shipments"
+				},
+				{
+					"name": "Customer",
+					"value": "customer",
+					"description": "Manage customers"
+				},
+				{
+					"name": "Cargo",
+					"value": "cargo",
+					"description": "Get cargo companies information"
+				}
+			],
+			"default": "shipment",
+			"required": true
+		}
+	]
+}

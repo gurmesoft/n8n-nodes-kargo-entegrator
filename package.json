@@ -1,19 +1,19 @@
 {
-  "name": "n8n-nodes-<...>",
+  "name": "n8n-nodes-kargo-entegrator",
   "version": "0.1.0",
-  "description": "",
+  "description": "N8N node for Kargo Entegratör API integration - create shipments and returns",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Kargo Entegratör",
+    "email": "destek@kargoentegrator.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/kargo-entegrator/n8n-nodes-kargo-entegrator.git"
   },
   "engines": {
     "node": ">=20.15"
@@ -22,6 +22,11 @@
   "scripts": {
     "build": "npx rimraf dist && tsc && gulp build:icons",
     "dev": "tsc --watch",
+    "dev:live": "concurrently \"npm run dev\" \"npm run dev:docker:restart\"",
+    "dev:docker:restart": "docker-compose -f docker-compose.simple.yml restart",
+    "dev:docker": "docker-compose -f docker-compose.dev.yml up -d",
+    "dev:docker:logs": "docker-compose -f docker-compose.dev.yml logs -f",
+    "dev:docker:stop": "docker-compose -f docker-compose.dev.yml down",
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
@@ -33,16 +38,16 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ExampleCredentialsApi.credentials.js",
-      "dist/credentials/HttpBinApi.credentials.js"
+      "dist/credentials/KargoEntegratorApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ExampleNode/ExampleNode.node.js",
-      "dist/nodes/HttpBin/HttpBin.node.js"
+      "dist/nodes/KargoEntegrator/KargoEntegrator.node.js",
+      "dist/nodes/KargoEntegrator/KargoEntegratorTrigger.node.js"
     ]
   },
   "devDependencies": {
     "@typescript-eslint/parser": "~8.32.0",
+    "concurrently": "^9.2.0",
     "eslint": "^8.57.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.3",
     "gulp": "^5.0.0",
