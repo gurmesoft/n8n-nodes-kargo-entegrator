@@ -101,7 +101,7 @@ export const shipmentFields: INodeProperties[] = [
 						displayName: 'Country',
 						name: 'country',
 						type: 'string',
-						default: 'TÜRKİYE',
+						default: 'TURKEY',
 						required: true,
 						description: 'Customer country',
 					},
@@ -223,12 +223,12 @@ export const shipmentFields: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Dosya',
+				name: 'Document',
 				value: 'document',
 				description: 'Document package type',
 			},
 			{
-				name: 'Kutu',
+				name: 'Box',
 				value: 'box',
 				description: 'Box package type',
 			},
@@ -249,12 +249,12 @@ export const shipmentFields: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Nakit',
+				name: 'Cash',
 				value: 'cash_money',
 				description: 'Cash payment',
 			},
 			{
-				name: 'Kredi Kartı',
+				name: 'Credit Card',
 				value: 'credit_card',
 				description: 'Credit card payment',
 			},
@@ -275,12 +275,12 @@ export const shipmentFields: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Gönderici',
+				name: 'Sender',
 				value: 'sender',
 				description: 'Sender pays',
 			},
 			{
-				name: 'Alıcı',
+				name: 'Receiver',
 				value: 'receiver',
 				description: 'Receiver pays',
 			},

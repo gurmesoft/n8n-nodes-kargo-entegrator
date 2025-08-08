@@ -51,7 +51,7 @@ export async function executeShipmentActions(
 			is_pay_at_door: this.getNodeParameter('isPayAtDoor', i),
 			currency: this.getNodeParameter('currency', i),
 			total: this.getNodeParameter('total', i),
-			platform_d_id: this.getNodeParameter('platformId', i),
+			platform_id: this.getNodeParameter('platformId', i),
 			platform: 'n8n',
 			desi: this.getNodeParameter('desi', i),
 			kg: this.getNodeParameter('kg', i),

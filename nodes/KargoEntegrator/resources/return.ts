@@ -43,24 +43,145 @@ export const returnOperations: INodeProperties[] = [
 ];
 
 export const returnFields: INodeProperties[] = [
+	// Create operation fields - Customer Information
 	{
-		displayName: 'Return ID',
-		name: 'returnId',
-		type: 'string',
+		displayName: 'Customer',
+		name: 'customer',
+		type: 'fixedCollection',
+		typeOptions: {
+			multipleValues: false,
+		},
 		displayOptions: {
 			show: {
 				resource: ['return'],
-				operation: ['get', 'printReturnedPdf'],
+				operation: ['create'],
 			},
 		},
-		default: '',
+		default: {},
 		required: true,
-		description: 'ID of the return shipment to retrieve',
+		description: 'Customer information',
+		options: [
+			{
+				name: 'customerDetails',
+				displayName: 'Customer Details',
+				values: [
+					{
+						displayName: 'Name',
+						name: 'name',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Customer first name',
+					},
+					{
+						displayName: 'Surname',
+						name: 'surname',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Customer surname',
+					},
+					{
+						displayName: 'Phone',
+						name: 'phone',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Customer phone number',
+					},
+					{
+						displayName: 'Email',
+						name: 'email',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Customer email address',
+					},
+					{
+						displayName: 'Country',
+						name: 'country',
+						type: 'string',
+						default: 'TURKEY',
+						required: true,
+						description: 'Customer country',
+					},
+					{
+						displayName: 'Postcode',
+						name: 'postcode',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Customer postal code',
+					},
+					{
+						displayName: 'City',
+						name: 'city',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Customer city',
+					},
+					{
+						displayName: 'District',
+						name: 'district',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Customer district',
+					},
+					{
+						displayName: 'Address',
+						name: 'address',
+						type: 'string',
+						typeOptions: {
+							rows: 3,
+						},
+						default: '',
+						required: true,
+						description: 'Customer full address',
+					},
+				],
+			},
+		],
 	},
 	{
-		displayName: 'Original Shipment ID',
-		name: 'originalShipmentId',
-		type: 'string',
+		displayName: 'Warehouse',
+		name: 'warehouseId',
+		type: 'options',
+		default: '',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getWarehouses',
+		},
+		description: 'The warehouse to use for the return shipment',
+	},
+	{
+		displayName: 'Cargo Company',
+		name: 'cargoCompanyId',
+		type: 'options',
+		default: '',
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		typeOptions: {
+			loadOptionsMethod: 'getCargoCompanies',
+		},
+		description: 'The cargo company to use for the return shipment',
+	},
+	{
+		displayName: 'Return Date',
+		name: 'returnDate',
+		type: 'dateTime',
 		displayOptions: {
 			show: {
 				resource: ['return'],
@@ -69,7 +190,7 @@ export const returnFields: INodeProperties[] = [
 		},
 		default: '',
 		required: true,
-		description: 'ID of the original shipment for return',
+		description: 'Date when the return was initiated',
 	},
 	{
 		displayName: 'Return Reason',
@@ -84,5 +205,272 @@ export const returnFields: INodeProperties[] = [
 		default: '',
 		required: true,
 		description: 'Reason for the return',
+	},
+	{
+		displayName: 'Package Weight (kg)',
+		name: 'weight',
+		type: 'number',
+		typeOptions: {
+			minValue: 0,
+			numberPrecision: 2,
+		},
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		default: 1,
+		description: 'Weight of the return package in kilograms',
+	},
+	{
+		displayName: 'Package Count',
+		name: 'packageCount',
+		type: 'number',
+		typeOptions: {
+			minValue: 1,
+		},
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		default: 1,
+		description: 'Number of return packages',
+	},
+	{
+		displayName: 'Package Type',
+		name: 'packageType',
+		type: 'options',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		options: [
+			{
+				name: 'Document',
+				value: 'document',
+				description: 'Document package type',
+			},
+			{
+				name: 'Box',
+				value: 'box',
+				description: 'Box package type',
+			},
+		],
+		default: 'document',
+		required: true,
+		description: 'Type of the return package',
+	},
+	{
+		displayName: 'Payment Type',
+		name: 'paymentType',
+		type: 'options',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		options: [
+			{
+				name: 'Cash',
+				value: 'cash_money',
+				description: 'Cash payment',
+			},
+			{
+				name: 'Credit Card',
+				value: 'credit_card',
+				description: 'Credit card payment',
+			},
+		],
+		default: 'cash_money',
+		required: true,
+		description: 'Payment method for the return shipment',
+	},
+	{
+		displayName: 'Payor Type',
+		name: 'payorType',
+		type: 'options',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		options: [
+			{
+				name: 'Sender',
+				value: 'sender',
+				description: 'Sender pays',
+			},
+			{
+				name: 'Receiver',
+				value: 'receiver',
+				description: 'Receiver pays',
+			},
+		],
+		default: 'sender',
+		required: true,
+		description: 'Who will pay for the return shipment',
+	},
+	{
+		displayName: 'Platform ID',
+		name: 'platformId',
+		type: 'number',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		default: 6484981,
+		required: true,
+		description: 'Order ID',
+	},
+	{
+		displayName: 'Desi',
+		name: 'desi',
+		type: 'number',
+		typeOptions: {
+			minValue: 0,
+			numberPrecision: 2,
+		},
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		default: 1,
+		required: true,
+		description: 'Return package desi value',
+	},
+	{
+		displayName: 'KG',
+		name: 'kg',
+		type: 'number',
+		typeOptions: {
+			minValue: 0,
+			numberPrecision: 2,
+		},
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		default: 1,
+		required: true,
+		description: 'Return package weight in kg',
+	},
+	{
+		displayName: 'Currency',
+		name: 'currency',
+		type: 'options',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		options: [
+			{
+				name: 'TRY',
+				value: 'TRY',
+				description: 'Turkish Lira',
+			},
+			{
+				name: 'USD',
+				value: 'USD',
+				description: 'US Dollar',
+			},
+			{
+				name: 'EUR',
+				value: 'EUR',
+				description: 'Euro',
+			},
+		],
+		default: 'TRY',
+		required: true,
+		description: 'Currency type',
+	},
+	{
+		displayName: 'Total',
+		name: 'total',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		default: '',
+		description: 'Total amount (optional)',
+	},
+	{
+		displayName: 'Is Pay at Door',
+		name: 'isPayAtDoor',
+		type: 'boolean',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		default: false,
+		description: 'Whether payment is at door',
+	},
+	{
+		displayName: 'Note',
+		name: 'note',
+		type: 'string',
+		typeOptions: {
+			rows: 3,
+		},
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['create'],
+			},
+		},
+		default: '',
+		description: 'Additional notes for the return shipment',
+	},
+	// Get operation fields
+	{
+		displayName: 'Return ID',
+		name: 'returnId',
+		type: 'string',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['get', 'printReturnedPdf'],
+			},
+		},
+		default: '',
+		required: true,
+		description: 'ID of the return shipment to retrieve',
+	},
+	// Get All operation fields
+	{
+		displayName: 'Limit',
+		name: 'limit',
+		type: 'number',
+		typeOptions: {
+			minValue: 1,
+			maxValue: 100,
+		},
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['getAll'],
+			},
+		},
+		default: 10,
+		description: 'Number of return shipments to retrieve (max 100)',
 	},
 ];
