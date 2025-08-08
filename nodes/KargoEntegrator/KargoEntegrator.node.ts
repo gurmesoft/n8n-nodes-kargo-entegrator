@@ -8,6 +8,7 @@ import {
 	ILoadOptionsFunctions,
 	INodePropertyOptions,
 	LoggerProxy as Logger,
+	ApplicationError,
 } from 'n8n-workflow';
 
 // Import resource definitions
@@ -52,9 +53,9 @@ export class KargoEntegrator implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
-						name: 'Shipment',
-						value: 'shipment',
-						description: 'Manage shipments',
+						name: 'Cargo',
+						value: 'cargo',
+						description: 'Get cargo companies information',
 					},
 					{
 						name: 'Return',
@@ -62,19 +63,19 @@ export class KargoEntegrator implements INodeType {
 						description: 'Manage return shipments',
 					},
 					{
-						name: 'Cargo',
-						value: 'cargo',
-						description: 'Get cargo companies information',
+						name: 'Setting',
+						value: 'settings',
+						description: 'Get system settings',
+					},
+					{
+						name: 'Shipment',
+						value: 'shipment',
+						description: 'Manage shipments',
 					},
 					{
 						name: 'Warehouse',
 						value: 'warehouse',
 						description: 'Manage warehouses',
-					},
-					{
-						name: 'Settings',
-						value: 'settings',
-						description: 'Get system settings',
 					},
 				],
 				default: 'shipment',
@@ -159,7 +160,7 @@ export class KargoEntegrator implements INodeType {
 			});
 		} catch (error) {
 			Logger.error('getWarehouses error:', error);
-			throw new Error(`Failed to load warehouses: ${error.message || error}`);
+			throw new ApplicationError(`Failed to load warehouses: ${error.message || error}`);
 		}
 	}
 
@@ -221,7 +222,7 @@ export class KargoEntegrator implements INodeType {
 			});
 		} catch (error) {
 			Logger.error('getCargoCompanies error:', error);
-			throw new Error(`Failed to load cargo companies: ${error.message || error}`);
+			throw new ApplicationError(`Failed to load cargo companies: ${error.message || error}`);
 		}
 	}
 

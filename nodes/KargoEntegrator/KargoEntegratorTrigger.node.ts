@@ -43,39 +43,9 @@ export class KargoEntegratorTrigger implements INodeType {
 				required: true,
 				options: [
 					{
-						name: 'Non Processed',
-						value: 'non_processed',
-						description: 'Gönderi henüz işlenmedi',
-					},
-					{
-						name: 'Shipped',
-						value: 'shipped',
-						description: 'Gönderi kargoya verildi',
-					},
-					{
-						name: 'On Transit',
-						value: 'on_transit',
-						description: 'Gönderi yolda',
-					},
-					{
 						name: 'At Delivery Center',
 						value: 'at_delivery_center',
 						description: 'Gönderi dağıtım merkezinde',
-					},
-					{
-						name: 'In Courier',
-						value: 'in_courier',
-						description: 'Gönderi kuryede',
-					},
-					{
-						name: 'Delivered',
-						value: 'delivered',
-						description: 'Gönderi teslim edildi',
-					},
-					{
-						name: 'On Return',
-						value: 'on_return',
-						description: 'Gönderi iade yolunda',
 					},
 					{
 						name: 'Canceled',
@@ -83,9 +53,39 @@ export class KargoEntegratorTrigger implements INodeType {
 						description: 'Gönderi iptal edildi',
 					},
 					{
+						name: 'Delivered',
+						value: 'delivered',
+						description: 'Gönderi teslim edildi',
+					},
+					{
 						name: 'Failed',
 						value: 'failed',
 						description: 'Gönderi başarısız',
+					},
+					{
+						name: 'In Courier',
+						value: 'in_courier',
+						description: 'Gönderi kuryede',
+					},
+					{
+						name: 'Non Processed',
+						value: 'non_processed',
+						description: 'Gönderi henüz işlenmedi',
+					},
+					{
+						name: 'On Return',
+						value: 'on_return',
+						description: 'Gönderi iade yolunda',
+					},
+					{
+						name: 'On Transit',
+						value: 'on_transit',
+						description: 'Gönderi yolda',
+					},
+					{
+						name: 'Shipped',
+						value: 'shipped',
+						description: 'Gönderi kargoya verildi',
 					},
 				],
 				default: 'shipped',

@@ -15,13 +15,11 @@ export const settingsOperations: INodeProperties[] = [
 			{
 				name: 'Get Shipment Settings',
 				value: 'getShipmentSettings',
-				description: 'Get shipment settings',
 				action: 'Get shipment settings',
 			},
 			{
 				name: 'Get Return Settings',
 				value: 'getReturnSettings',
-				description: 'Get return settings',
 				action: 'Get return settings',
 			},
 		],

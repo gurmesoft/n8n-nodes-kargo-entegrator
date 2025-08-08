@@ -6,14 +6,21 @@
     "n8n-community-node-package"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/kargo-entegrator/n8n-nodes-kargo-entegrator#readme",
   "author": {
     "name": "Kargo Entegratör",
     "email": "destek@kargoentegrator.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kargo-entegrator/n8n-nodes-kargo-entegrator.git"
+    "url": "git+https://github.com/kargo-entegrator/n8n-nodes-kargo-entegrator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kargo-entegrator/n8n-nodes-kargo-entegrator/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/kargo-entegrator"
   },
   "engines": {
     "node": ">=20.15"
@@ -56,5 +63,8 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

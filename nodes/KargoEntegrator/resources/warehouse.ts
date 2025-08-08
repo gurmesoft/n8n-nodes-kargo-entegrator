@@ -13,10 +13,10 @@ export const warehouseOperations: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Get All',
+				name: 'Get Many',
 				value: 'getAll',
-				description: 'Get all warehouses',
-				action: 'Get all warehouses',
+				description: 'Get many warehouses',
+				action: 'Get many warehouses',
 			},
 			{
 				name: 'Get',

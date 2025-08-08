@@ -6,16 +6,34 @@ Kargo Entegratör is a Turkish cargo integration platform that allows you to man
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-[Installation](#installation)  
-[Operations](#operations)  
-[Credentials](#credentials)  
-[Compatibility](#compatibility)  
-[Usage](#usage)  
-[Resources](#resources)  
+## Table of Contents
+
+- [Installation](#installation)
+- [Operations](#operations)
+- [Credentials](#credentials)
+- [Compatibility](#compatibility)
+- [Usage](#usage)
+- [Resources](#resources)
+- [Version History](#version-history)
+- [License](#license)  
 
 ## Installation
 
 Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
+
+### Community Nodes (Recommended)
+
+1. Go to **Settings > Community Nodes**
+2. Select **Install**
+3. Enter `n8n-nodes-kargo-entegrator`
+4. Agree to the risks of using community nodes
+5. Select **Install**
+
+### Manual Installation
+
+```bash
+npm install n8n-nodes-kargo-entegrator
+```
 
 ## Operations
 
@@ -71,6 +89,24 @@ Use the "Cargo" resource to get information about available cargo companies and 
 * [Kargo Entegratör API Documentation](https://documenter.getpostman.com/view/25047990/2sAY4vg2RR)
 * [Kargo Entegratör Website](https://kargoentegrator.com/)
 
+## Version History
+
+### 0.1.0
+- Initial release
+- Support for shipment creation, retrieval, and PDF generation
+- Support for return shipment management
+- Cargo company and warehouse information retrieval
+- Webhook trigger for shipment status changes
+- System settings access
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+For support, please contact [destek@kargoentegrator.com](mailto:destek@kargoentegrator.com) or visit our [website](https://kargoentegrator.com/).
+
 ## License
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+[MIT](https://github.com/kargo-entegrator/n8n-nodes-kargo-entegrator/blob/main/LICENSE.md)

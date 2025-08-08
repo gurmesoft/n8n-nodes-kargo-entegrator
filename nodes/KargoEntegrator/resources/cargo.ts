@@ -13,10 +13,10 @@ export const cargoOperations: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Get All',
+				name: 'Get Many',
 				value: 'getAll',
-				description: 'Get all cargo companies',
-				action: 'Get all cargo companies',
+				description: 'Get many cargo companies',
+				action: 'Get many cargo companies',
 			},
 			{
 				name: 'Get',
