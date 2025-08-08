@@ -109,4 +109,4 @@ For support, please contact [destek@kargoentegrator.com](mailto:destek@kargoente
 
 ## License
 
-[MIT](https://github.com/kargo-entegrator/n8n-nodes-kargo-entegrator/blob/main/LICENSE.md)
+[MIT](https://github.com/gurmesoft/n8n-nodes-kargo-entegrator/blob/main/LICENSE.md)
