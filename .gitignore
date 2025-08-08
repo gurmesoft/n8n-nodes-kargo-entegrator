@@ -6,3 +6,11 @@ dist
 npm-debug.log*
 yarn.lock
 .vscode/launch.json
+
+# Docker files
+docker-compose*.yml
+
+# Development files
+DEBUG.md
+DEVELOPMENT.md
+README_TEMPLATE.md
