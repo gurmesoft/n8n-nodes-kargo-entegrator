@@ -9,3 +9,6 @@ yarn.lock
 
 # Docker files
 docker-compose*.yml
+Dockerfile
+package-lock.json
+DOCKER-README.md
