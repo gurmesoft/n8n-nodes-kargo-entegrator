@@ -7,7 +7,6 @@ import {
 	NodeConnectionType,
 	ILoadOptionsFunctions,
 	INodePropertyOptions,
-	LoggerProxy as Logger,
 	ApplicationError,
 } from 'n8n-workflow';
 
@@ -109,26 +108,18 @@ export class KargoEntegrator implements INodeType {
 		const baseUrl = credentials.baseUrl || 'https://app.kargoentegrator.com/api';
 
 		try {
-			Logger.info('getWarehouses çağrıldı', { baseUrl, endpoint: '/settings/warehouses' });
-			const responseData = await this.helpers.request({
-				method: 'GET',
-				url: `${baseUrl}/settings/warehouses`,
-				headers: {
-					Authorization: `Bearer ${credentials.apiKey}`,
-					Accept: 'application/json',
-				},
-				json: true,
-			});
-			Logger.info('getWarehouses response alındı', { 
-				response: responseData,
-				responseType: typeof responseData,
-				isArray: Array.isArray(responseData),
-				keys: responseData ? Object.keys(responseData) : 'null'
-			});
+			const responseData = await this.helpers.httpRequestWithAuthentication.call(
+				this,
+				'kargoEntegratorApi',
+				{
+					method: 'GET',
+					url: `${baseUrl}/settings/warehouses`,
+					json: true,
+				}
+			);
 
 			// Check response structure with better error handling
 			if (!responseData) {
-				Logger.error('getWarehouses: Boş response alındı');
 				return [];
 			}
 
@@ -141,17 +132,14 @@ export class KargoEntegrator implements INodeType {
 			} else if (responseData.data && responseData.data.data && Array.isArray(responseData.data.data)) {
 				warehouseArray = responseData.data.data;
 			} else {
-				Logger.error('getWarehouses: Beklenmeyen response yapısı', { responseData });
 				return [];
 			}
 
 			if (!warehouseArray || warehouseArray.length === 0) {
-				Logger.warn('getWarehouses: Boş warehouse array');
 				return [];
 			}
 
 			return warehouseArray.map((warehouse: any) => {
-				Logger.info('getWarehouses: Warehouse item', { warehouse });
 				return {
 					name: warehouse.name || warehouse.title || `Warehouse ${warehouse.id}`,
 					value: warehouse.id ? warehouse.id.toString() : '',
@@ -159,7 +147,6 @@ export class KargoEntegrator implements INodeType {
 				};
 			});
 		} catch (error) {
-			Logger.error('getWarehouses error:', error);
 			throw new ApplicationError(`Failed to load warehouses: ${error.message || error}`);
 		}
 	}
@@ -171,26 +158,18 @@ export class KargoEntegrator implements INodeType {
 		const baseUrl = credentials.baseUrl || 'https://app.kargoentegrator.com/api';
 
 		try {
-			Logger.info('getCargoCompanies çağrıldı', { baseUrl, endpoint: '/integration/cargos' });
-			const responseData = await this.helpers.request({
-				method: 'GET',
-				url: `${baseUrl}/integration/cargos`,
-				headers: {
-					Authorization: `Bearer ${credentials.apiKey}`,
-					Accept: 'application/json',
-				},
-				json: true,
-			});
-			Logger.info('getCargoCompanies response alındı', { 
-				response: responseData,
-				responseType: typeof responseData,
-				isArray: Array.isArray(responseData),
-				keys: responseData ? Object.keys(responseData) : 'null'
-			});
+			const responseData = await this.helpers.httpRequestWithAuthentication.call(
+				this,
+				'kargoEntegratorApi',
+				{
+					method: 'GET',
+					url: `${baseUrl}/integration/cargos`,
+					json: true,
+				}
+			);
 
 			// Check response structure with better error handling
 			if (!responseData) {
-				Logger.error('getCargoCompanies: Boş response alındı');
 				return [];
 			}
 
@@ -203,17 +182,14 @@ export class KargoEntegrator implements INodeType {
 			} else if (responseData.data && responseData.data.data && Array.isArray(responseData.data.data)) {
 				companiesArray = responseData.data.data;
 			} else {
-				Logger.error('getCargoCompanies: Beklenmeyen response yapısı', { responseData });
 				return [];
 			}
 
 			if (!companiesArray || companiesArray.length === 0) {
-				Logger.warn('getCargoCompanies: Boş companies array');
 				return [];
 			}
 
 			return companiesArray.map((company: any) => {
-				Logger.info('getCargoCompanies: Company item', { company });
 				return {
 					name: company.title || company.name || `Company ${company.id}`,
 					value: company.id ? company.id.toString() : '',
@@ -221,7 +197,6 @@ export class KargoEntegrator implements INodeType {
 				};
 			});
 		} catch (error) {
-			Logger.error('getCargoCompanies error:', error);
 			throw new ApplicationError(`Failed to load cargo companies: ${error.message || error}`);
 		}
 	}

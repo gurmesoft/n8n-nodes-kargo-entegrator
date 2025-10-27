@@ -11,27 +11,27 @@ export async function executeWarehouseActions(
 
 	if (operation === 'getAll') {
 		// Get all warehouses
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/settings/warehouses`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/settings/warehouses`,
+				json: true,
+			}
+		);
 	} else if (operation === 'get') {
 		// Get specific warehouse
 		const warehouseId = this.getNodeParameter('warehouseId', i);
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/settings/warehouses/${warehouseId}`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/settings/warehouses/${warehouseId}`,
+				json: true,
+			}
+		);
 	}
 
 	return {

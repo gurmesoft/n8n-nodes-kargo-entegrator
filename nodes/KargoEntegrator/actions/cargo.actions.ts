@@ -11,27 +11,27 @@ export async function executeCargoActions(
 
 	if (operation === 'getAll') {
 		// Get all cargo companies
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/integration/cargos`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/integration/cargos`,
+				json: true,
+			}
+		);
 	} else if (operation === 'get') {
 		// Get specific cargo company
 		const cargoId = this.getNodeParameter('cargoId', i);
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/integration/cargos/${cargoId}`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/integration/cargos/${cargoId}`,
+				json: true,
+			}
+		);
 	}
 
 	return {

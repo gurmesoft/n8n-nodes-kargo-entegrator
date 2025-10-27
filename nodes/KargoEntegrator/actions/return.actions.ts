@@ -87,52 +87,94 @@ export async function executeReturnActions(
 			},
 		};
 
-		responseData = await this.helpers.request({
-			method: 'POST',
-			url: `${baseUrl}/returneds`,
-			headers: {
-			Authorization: `Bearer ${credentials.apiKey}`,
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-			body,
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'POST',
+				url: `${baseUrl}/returneds`,
+				body,
+				json: true,
+			}
+		);
 	} else if (operation === 'get') {
 		// Get return shipment
 		const returnId = this.getNodeParameter('returnId', i);
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/returneds/${returnId}`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/returneds/${returnId}`,
+				json: true,
+			}
+		);
 	} else if (operation === 'getAll') {
 		// Get all return shipments
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/returneds`,
-			headers: {
-			Authorization: `Bearer ${credentials.apiKey}`,
-			Accept: 'application/json',
-		},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/returneds`,
+				json: true,
+			}
+		);
 	} else if (operation === 'printReturnedPdf') {
 		// Print returned PDF
 		const returnId = this.getNodeParameter('returnId', i);
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/print-returned-pdf/${returnId}`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/pdf',
-			},
-			encoding: null,
-		});
+		const outputFormat = this.getNodeParameter('outputFormat', i, 'binary') as string;
+		
+		const pdfBuffer = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/print-returned-pdf/${returnId}`,
+				headers: {
+					Accept: 'application/pdf',
+				},
+				encoding: 'arraybuffer', // For binary data
+			}
+		);
+
+		const fileName = `return_${returnId}.pdf`;
+		
+		if (outputFormat === 'base64') {
+			// Return as JSON with base64 string and metadata
+			return {
+				json: {
+					pdfData: pdfBuffer.toString('base64'),
+					fileName: fileName,
+					mimeType: 'application/pdf',
+					size: pdfBuffer.length,
+				},
+				pairedItem: {
+					item: i,
+				},
+			};
+		} else {
+			// Return as binary data
+			const binaryData = await this.helpers.prepareBinaryData(
+				pdfBuffer,
+				fileName,
+				'application/pdf'
+			);
+			
+			return {
+				json: {
+					fileName: fileName,
+					mimeType: 'application/pdf',
+					size: pdfBuffer.length,
+				},
+				binary: {
+					data: binaryData,
+				},
+				pairedItem: {
+					item: i,
+				},
+			};
+		}
 	}
 
 	return {

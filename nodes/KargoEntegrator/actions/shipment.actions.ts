@@ -58,41 +58,40 @@ export async function executeShipmentActions(
 			note: this.getNodeParameter('note', i),
 		};
 
-		responseData = await this.helpers.request({
-			method: 'POST',
-			url: `${baseUrl}/shipments`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body,
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'POST',
+				url: `${baseUrl}/shipments`,
+				body,
+				json: true,
+			}
+		);
 	} else if (operation === 'get') {
 		// Get shipment
 		const shipmentId = this.getNodeParameter('shipmentId', i);
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/shipments/${shipmentId}`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/shipments/${shipmentId}`,
+				json: true,
+			}
+		);
 	} else if (operation === 'getAll') {
 		// Get all shipments
 		const limit = this.getNodeParameter('limit', i);
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/shipments?limit=${limit}`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/shipments?limit=${limit}`,
+				json: true,
+			}
+		);
 	} else if (operation === 'printPdf') {
 		// Generate PDF document for shipments
 		const shipmentIds = this.getNodeParameter('shipmentIds', i) as string;
@@ -102,15 +101,18 @@ export async function executeShipmentActions(
 		// Build query parameters for multiple shipments
 		const queryParams = shipmentArray.map((id, index) => `shipments[${index}]=${id}`).join('&');
 		
-		const pdfBuffer = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/print-pdf?${queryParams}`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/pdf',
-			},
-			encoding: null, // Important for binary data
-		});
+		const pdfBuffer = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/print-pdf?${queryParams}`,
+				headers: {
+					Accept: 'application/pdf',
+				},
+				encoding: 'arraybuffer', // For binary data
+			}
+		);
 
 		const fileName = `shipments_${shipmentArray.join('_')}.pdf`;
 		

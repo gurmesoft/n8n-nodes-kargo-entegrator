@@ -11,27 +11,29 @@ export async function executeSettingsActions(
 
 	if (operation === 'getShipmentSettings') {
 		// Get shipment settings
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/settings/shipment-setting`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/settings/shipment-setting`,
+				json: true,
+			}
+		);
 	} else if (operation === 'getReturnSettings') {
 		// Get return settings
-		responseData = await this.helpers.request({
-			method: 'GET',
-			url: `${baseUrl}/settings/returned-setting`,
-			headers: {
-				Authorization: `Bearer ${credentials.apiKey}`,
-				Accept: 'application/json',
-				'X-Platform': 'n8n',
-			},
-			json: true,
-		});
+		responseData = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'kargoEntegratorApi',
+			{
+				method: 'GET',
+				url: `${baseUrl}/settings/returned-setting`,
+				headers: {
+					'X-Platform': 'n8n',
+				},
+				json: true,
+			}
+		);
 	}
 
 	return {

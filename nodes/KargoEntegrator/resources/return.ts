@@ -470,4 +470,30 @@ export const returnFields: INodeProperties[] = [
 		default: 50,
 		description: 'Max number of results to return',
 	},
+	{
+		displayName: 'Output Format',
+		name: 'outputFormat',
+		type: 'options',
+		displayOptions: {
+			show: {
+				resource: ['return'],
+				operation: ['printReturnedPdf'],
+			},
+		},
+		options: [
+			{
+				name: 'Binary Data (for Write to Disk)',
+				value: 'binary',
+				description: 'Return PDF as binary data suitable for Write to Disk node',
+			},
+			{
+				name: 'Base64 String',
+				value: 'base64',
+				description: 'Return PDF as base64 encoded string in JSON format',
+			},
+		],
+		default: 'binary',
+		required: true,
+		description: 'Choose how to return the PDF data',
+	},
 ];
