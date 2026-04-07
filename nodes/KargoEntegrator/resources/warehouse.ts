@@ -15,7 +15,7 @@ export const warehouseOperations: INodeProperties[] = [
 			{
 				name: 'Get Many',
 				value: 'getAll',
-				description: 'List all warehouses linked to your account. Use this to get warehouse_id values for shipment creation. <a href="https://dev.kargoentegrator.com/api/settings/depo-listeleme">API Docs</a>.',
+				description: 'List many warehouses linked to your account. Use this to get warehouse_id values for shipment creation. <a href="https://dev.kargoentegrator.com/api/settings/depo-listeleme">API Docs</a>.',
 				action: 'Get many warehouses',
 			},
 			{
