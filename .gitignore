@@ -12,3 +12,4 @@ docker-compose*.yml
 Dockerfile
 package-lock.json
 DOCKER-README.md
+docs
