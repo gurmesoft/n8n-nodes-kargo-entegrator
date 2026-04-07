@@ -1,0 +1,4 @@
+{
+  "name": "Create a return (without approval) via Kargo Entegrator when a return is requested",
+  "description": "Create a return without approval via Kargo Entegrator. Use the barcode when the return is created. If the return is not successful, you'll receive an internal email with error details"
+}

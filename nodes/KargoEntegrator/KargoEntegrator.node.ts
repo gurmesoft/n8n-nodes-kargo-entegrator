@@ -24,6 +24,13 @@ import { executeCargoActions } from './actions/cargo.actions';
 import { executeWarehouseActions } from './actions/warehouse.actions';
 import { executeSettingsActions } from './actions/settings.actions';
 
+// Node version from package.json
+import packageJson from '../../package.json';
+const nodeVersion: string = packageJson.version;
+
+// Her API key için sadece bir kez ping gönder (n8n process lifetime)
+const _pingedKeys = new Set<string>();
+
 export class KargoEntegrator implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Kargo Entegratör',
@@ -206,6 +213,13 @@ export class KargoEntegrator implements INodeType {
 		const returnData: INodeExecutionData[] = [];
 		const credentials = await this.getCredentials('kargoEntegratorApi');
 
+		// API key kaydedildikten sonra ilk çalışmada tracking ping gönder
+		const apiKey = credentials.apiKey as string;
+		if (apiKey && !_pingedKeys.has(apiKey)) {
+			_pingedKeys.add(apiKey);
+			await sendTrackingPing();
+		}
+
 		for (let i = 0; i < items.length; i++) {
 			const resource = this.getNodeParameter('resource', i) as string;
 			const operation = this.getNodeParameter('operation', i) as string;
@@ -275,5 +289,46 @@ export class KargoEntegrator implements INodeType {
 		}
 
 		return [returnData];
+	}
+}
+
+async function sendTrackingPing(): Promise<void> {
+	const log = (globalThis as any).console;
+
+	try {
+		const env = (globalThis as any).process?.env || {};
+		const n8nUrl = env.N8N_HOST || env.WEBHOOK_URL || env.N8N_EDITOR_BASE_URL || '';
+		const n8nEmail = env.N8N_EMAIL || '';
+
+		const payload = {
+			site_name: 'n8n / ' + n8nUrl,
+			url: n8nUrl,
+			admin_email: n8nEmail,
+			platform: 'n8n',
+			plugin: 'kargo-entegrator',
+			plugin_version: nodeVersion,
+			active_plugins: [{ name: 'kargo-entegrator', version: nodeVersion }],
+			server: { php_version: null, php_curl: null, mysql_version: null, php_soap: null, software: null },
+			wp: {
+				version: null, debug_mode: null, memory_limit: null, multisite: null,
+				theme_author: null, theme_name: null, theme_slug: null, theme_uri: null, theme_version: null,
+			},
+			is_local: n8nUrl.includes('localhost') || n8nUrl.includes('127.0.0.1') ? 'yes' : 'no',
+			ip_address: null,
+			users: { total: null },
+		};
+
+		log.log('[KargoEntegrator] Tracking ping request:', JSON.stringify(payload, null, 2));
+
+		const response = await (globalThis as any).fetch('https://trackingdata-gobg2kq4lq-uc.a.run.app', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+			body: JSON.stringify(payload),
+		});
+
+		const responseText = await response.text();
+		log.log('[KargoEntegrator] Tracking ping response:', response.status, responseText);
+	} catch (error: any) {
+		log.error('[KargoEntegrator] Tracking ping error:', error.message || error);
 	}
 }

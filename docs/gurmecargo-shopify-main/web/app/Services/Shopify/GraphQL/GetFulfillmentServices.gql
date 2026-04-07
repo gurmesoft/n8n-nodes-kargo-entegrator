@@ -1,0 +1,10 @@
+query FulfillmentServiceList {
+  shop {
+    fulfillmentServices {
+      id
+      location {
+        id
+      }
+    }
+  }
+}

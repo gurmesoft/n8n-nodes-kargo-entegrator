@@ -1,0 +1,4 @@
+{
+    "name": "İade Oluştur (Onay Beklemeden) - Kargo Entegrator ile İade Talep Edildiğinde",
+    "description": "Kargo Entegrator üzerinden onay gerektirmeden iade oluştur. İade oluşturulurken barkod kullanılır. İade başarısız olursa, hata detaylarını içeren dahili bir e-posta alacaksınız"
+}

@@ -1,0 +1,22 @@
+[[extensions]]
+name = "Create Shipment"
+handle = "shipment-create"
+type = "flow_action"
+return_type_ref = "Shipment"
+schema = "./schema.graphql"
+
+
+description = "Sipariş için otomatik kargo gönderisi oluşturur"
+runtime_url = "https://inns-douglas-accepted-statute.trycloudflare.com/api/gcargo-flow-create-shipment"
+
+[settings]
+
+  [[settings.fields]]
+  type = "order_reference"
+  required = true
+
+  [[settings.fields]]
+  type = "single_line_text_field"
+  key = "cargo_integration_id"
+  name = "Kargo Hesap Kimliği"
+  description = "Yollamak istediğiniz kargo hesap kimliğini giriniz. Kimlik bilgisini panelinizdeki Ayarlar > Kargo Hesapları > Yönet kısmından görebilirsiniz. Boş bırakılması durumunda varsayılan hesap ile işlem yapılır."

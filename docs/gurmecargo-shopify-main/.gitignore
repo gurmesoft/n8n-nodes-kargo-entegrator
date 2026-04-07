@@ -1,0 +1,36 @@
+# Environment Configuration
+.env
+.env.*
+
+# Dependency directory
+node_modules
+
+# Test coverage directory
+coverage
+
+# Ignore Apple macOS Desktop Services Store
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# extensions build output
+extensions/*/build
+extensions/*/dist
+extensions/**/*.toml
+web/yarn.lock
+web/composer.lock
+yarn.lock
+package-lock.json
+# lock files
+
+#toml files
+shopify.app.toml
+
+#continue
+.continuerules
+.shopify
+
+#cursor
+.cursor

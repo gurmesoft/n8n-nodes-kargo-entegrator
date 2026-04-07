@@ -1,0 +1,4 @@
+{
+  "name": "Create a shipment via Kargo Entegrator conditionally when an order is created",
+  "description": "Create a shipment in Flow via a Kargo Entegrator action if the order meets shipping and billing conditions"
+}

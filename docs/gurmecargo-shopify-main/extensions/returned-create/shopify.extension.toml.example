@@ -1,0 +1,27 @@
+[[extensions]]
+name = "Create Return"
+handle = "returned-create"
+type = "flow_action"
+return_type_ref = "Returned"
+schema = "./schema.graphql"
+
+description = "Sipariş için otomatik iade oluşturur"
+runtime_url = "https://respondents-approaches-consciousness-equivalent.trycloudflare.com/api/gcargo-flow-create-returned"
+
+[settings]
+
+  [[settings.fields]]
+  type = "order_reference"
+  required = true
+
+  [[settings.fields]]
+  type = "single_line_text_field"
+  key = "cargo_integration_id"
+  name = "Kargo Hesap Kimliği"
+  description = "Yollamak istediğiniz kargo hesap kimliğini giriniz. Kimlik bilgisini panelinizdeki Ayarlar > Kargo Hesapları > Yönet kısmından görebilirsiniz. Boş bırakılması durumunda varsayılan hesap ile işlem yapılır."
+
+  [[settings.fields]]
+  type = "single_line_text_field"
+  key = "last_return_date"
+  name = "İade gün süresi"
+  description = "Randevulu sistemlerde bu değer, iade için oluşturulacak randevu tarihini belirler. Son kullanımlı sistemlerde ise, iade edilebilecek son günü ifade eder. Bu yüzden her entegrasyonda bu sürenin ne anlama geldiği dikkate alınarak kargo tarihleri hesaplanmalıdır."

@@ -1,0 +1,5 @@
+{
+    "name": "Create a shipment via Kargo Entegrator when an order is created",
+    "description": "Create a shipment in Flow via a Kargo Entegrator action. Use the barcode when the shipment is created or receive an internal email with error details if it fails."
+  }
+  

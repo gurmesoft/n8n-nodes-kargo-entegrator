@@ -1,0 +1,7 @@
+roles = ["frontend"]
+
+auth_callback_path = ["/authenticate"]
+
+[commands]
+dev = "composer serve"
+build = "composer build"

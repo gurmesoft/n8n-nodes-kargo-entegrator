@@ -1,0 +1,17 @@
+{
+  return(id: "gid://shopify/Return/%s") {
+    id
+    name
+    status
+    reverseFulfillmentOrders(first: 10) {
+      nodes {
+        id
+        reverseDeliveries(first: 10) {
+          nodes {
+            id
+          }
+        }
+      }
+    }
+  }
+}

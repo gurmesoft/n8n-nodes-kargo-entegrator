@@ -1,0 +1,17 @@
+mutation ReturnApproveRequest($input: ReturnApproveRequestInput!) {
+    returnApproveRequest(input: $input) {
+        return {
+            id
+            reverseFulfillmentOrders(first: 50) {
+                nodes {
+                    id
+                }
+            }
+        }
+        userErrors {
+            code
+            field
+            message
+        }
+    }
+}

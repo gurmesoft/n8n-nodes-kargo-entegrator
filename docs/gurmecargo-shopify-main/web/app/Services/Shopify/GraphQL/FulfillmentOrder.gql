@@ -1,0 +1,9 @@
+query LocationsForMoveList($fulfillmentOrderId: ID!) {
+    fulfillmentOrder(id: $fulfillmentOrderId) {
+        fulfillments(first: 10) {
+            nodes {
+                id
+            }
+        }
+    }
+}

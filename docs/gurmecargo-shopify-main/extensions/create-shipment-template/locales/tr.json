@@ -1,0 +1,4 @@
+{
+    "name": "Sipariş Oluşturulduğunda Kargo Entegrator ile Gönderi Oluştur",
+    "description": "Flow ile Kargo Entegrator aksiyonu üzerinden gönderi oluştur. Gönderi oluşturulduğunda barkod kullan veya başarısız olursa hata detaylarını içeren dahili e-posta al."
+}

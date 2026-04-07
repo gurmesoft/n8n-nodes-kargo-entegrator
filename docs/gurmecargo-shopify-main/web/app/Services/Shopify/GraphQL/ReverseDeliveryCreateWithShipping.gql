@@ -1,0 +1,23 @@
+mutation reverseDeliveryCreateWithShipping(
+    $labelInput: ReverseDeliveryLabelInput
+    $notifyCustomer: Boolean
+    $reverseDeliveryLineItems: [ReverseDeliveryLineItemInput!]!
+    $reverseFulfillmentOrderId: ID!
+    $trackingInput: ReverseDeliveryTrackingInput
+) {
+    reverseDeliveryCreateWithShipping(
+        labelInput: $labelInput
+        notifyCustomer: $notifyCustomer
+        reverseDeliveryLineItems: $reverseDeliveryLineItems
+        reverseFulfillmentOrderId: $reverseFulfillmentOrderId
+        trackingInput: $trackingInput
+    ) {
+        reverseDelivery {
+            id
+        }
+        userErrors {
+            field
+            message
+        }
+    }
+}

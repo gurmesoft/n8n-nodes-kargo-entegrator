@@ -1,0 +1,11 @@
+mutation fulfillmentCreate($fulfillment: FulfillmentInput!, $message: String) {
+  fulfillmentCreate(fulfillment: $fulfillment, message: $message) {
+    fulfillment {
+      id
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}

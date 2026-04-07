@@ -1,0 +1,7 @@
+{
+  themes(roles: MAIN, first: 10) {
+    nodes {
+      id
+    }
+  }
+}

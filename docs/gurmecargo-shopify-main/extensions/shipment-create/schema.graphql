@@ -1,0 +1,10 @@
+enum Status {
+  COMPLETE
+  FAILED
+}
+
+type Shipment {
+  barcode_numbers: [String!]!
+  status: Status!
+  error_message: String
+}

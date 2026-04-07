@@ -1,0 +1,15 @@
+[[extensions]]
+name = "Gönderi Oluştuğunda"
+handle = "shipment-created"
+type = "flow_trigger"
+
+description = "Gönderi oluştuğunda işlem yapar"
+
+[settings]
+
+  [[settings.fields]]
+  type = "order_reference"
+
+  [[settings.fields]]
+  type = "single_line_text_field"
+  key = "shipmentId"

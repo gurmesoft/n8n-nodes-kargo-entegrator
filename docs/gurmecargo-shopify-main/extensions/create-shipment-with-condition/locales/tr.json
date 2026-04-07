@@ -1,0 +1,4 @@
+{
+    "name": "Sipariş Oluşturulduğunda Koşullu Olarak Kargo Entegrator ile Gönderi Oluştur",
+    "description": "Eğer sipariş gönderim ve fatura koşullarını karşılıyorsa Flow ile Kargo Entegrator aksiyonu üzerinden gönderi oluştur"
+} 

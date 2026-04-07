@@ -1,0 +1,9 @@
+{
+    reverseFulfillmentOrder(id: "gid://shopify/ReverseFulfillmentOrder/%s") {
+        reverseDeliveries(first: 10) {
+            nodes {
+                id
+            }
+        }
+    }
+}

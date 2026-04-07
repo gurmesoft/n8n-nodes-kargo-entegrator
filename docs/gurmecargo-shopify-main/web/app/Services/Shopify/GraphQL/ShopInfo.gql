@@ -1,0 +1,12 @@
+{
+    shop {
+        name
+        contactEmail
+        email
+        primaryDomain {
+            url
+        }
+        url
+        myshopifyDomain
+    }
+}

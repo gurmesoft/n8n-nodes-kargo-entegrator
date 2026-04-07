@@ -1,0 +1,15 @@
+[[extensions]]
+name = "İade Oluştuğunda"
+handle = "returned-created"
+type = "flow_trigger"
+
+description = "İade oluştuğunda işlem yapar"
+
+[settings]
+
+  [[settings.fields]]
+  type = "order_reference"
+
+  [[settings.fields]]
+  type = "single_line_text_field"
+  key = "returnedId"

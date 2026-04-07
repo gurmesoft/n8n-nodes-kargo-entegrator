@@ -43,7 +43,7 @@ export class KargoEntegratorApi implements ICredentialType {
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://app.kargoentegrator.com/api',
-			url: '/integration/cargos',
+			url: '/helpers/check-connection',
 			method: 'GET',
 			headers: {
 				Authorization: '=Bearer {{$credentials.apiKey}}',
@@ -51,6 +51,5 @@ export class KargoEntegratorApi implements ICredentialType {
 				'Content-Type': 'application/json',
 			},
 		},
-
 	};
 }
