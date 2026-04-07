@@ -15,13 +15,13 @@ export const shipmentOperations: INodeProperties[] = [
 			{
 				name: 'Create',
 				value: 'create',
-				description: 'Create a new shipment',
+				description: 'Create a new shipment. <a href="https://dev.kargoentegrator.com/api/shipments/olusturma">API Docs</a>.',
 				action: 'Create a shipment',
 			},
 			{
 				name: 'Get',
 				value: 'get',
-				description: 'Get shipment details',
+				description: 'Get shipment details by ID',
 				action: 'Get a shipment',
 			},
 			{
@@ -31,9 +31,9 @@ export const shipmentOperations: INodeProperties[] = [
 				action: 'Get many shipments',
 			},
 			{
-				name: 'Print Shipment PDF',
+				name: 'Print PDF',
 				value: 'printPdf',
-				description: 'Generate PDF document for shipments',
+				description: 'Download label/barcode PDF for one or more shipments. <a href="https://dev.kargoentegrator.com/api/print-pdf">API Docs</a>.',
 				action: 'Print shipment PDF',
 			},
 		],
@@ -43,7 +43,9 @@ export const shipmentOperations: INodeProperties[] = [
 ];
 
 export const shipmentFields: INodeProperties[] = [
-	// Create operation fields - Customer Information
+	// ── Create operation fields ──
+
+	// Customer Information
 	{
 		displayName: 'Customer',
 		name: 'customer',
@@ -59,43 +61,35 @@ export const shipmentFields: INodeProperties[] = [
 		},
 		default: {},
 		required: true,
-		description: 'Customer information',
+		description: 'Recipient customer information. If customer_id is not provided, this object is required.',
 		options: [
 			{
 				name: 'customerDetails',
 				displayName: 'Customer Details',
 				values: [
 					{
-						displayName: 'Address',
-						name: 'address',
+						displayName: 'Name',
+						name: 'name',
 						type: 'string',
 						default: '',
-							required:	true,
-						description: 'Customer full address',
+						required: true,
+						description: 'Recipient first name (max 255 characters)',
 					},
 					{
-						displayName: 'City',
-						name: 'city',
+						displayName: 'Surname',
+						name: 'surname',
 						type: 'string',
 						default: '',
-							required:	true,
-						description: 'Customer city',
+						required: true,
+						description: 'Recipient last name (max 255 characters)',
 					},
 					{
-						displayName: 'Country',
-						name: 'country',
-						type: 'string',
-						default: 'TURKEY',
-							required:	true,
-						description: 'Customer country',
-					},
-					{
-						displayName: 'District',
-						name: 'district',
+						displayName: 'Phone',
+						name: 'phone',
 						type: 'string',
 						default: '',
-							required:	true,
-						description: 'Customer district',
+						required: true,
+						description: 'Recipient phone number',
 					},
 					{
 						displayName: 'Email',
@@ -103,40 +97,48 @@ export const shipmentFields: INodeProperties[] = [
 						type: 'string',
 						placeholder: 'name@email.com',
 						default: '',
-							required:	true,
-						description: 'Customer email address',
+						required: false,
+						description: 'Recipient email address (valid format, max 255 characters)',
 					},
 					{
-						displayName: 'Name',
-						name: 'name',
+						displayName: 'Country',
+						name: 'country',
 						type: 'string',
-						default: '',
-							required:	true,
-						description: 'Customer first name',
+						default: 'TURKEY',
+						required: true,
+						description: 'Recipient country (max 255 characters)',
 					},
 					{
-						displayName: 'Phone',
-						name: 'phone',
+						displayName: 'City',
+						name: 'city',
 						type: 'string',
 						default: '',
-							required:	true,
-						description: 'Customer phone number',
+						required: true,
+						description: 'Recipient city / province (max 255 characters)',
+					},
+					{
+						displayName: 'District',
+						name: 'district',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Recipient district (max 255 characters)',
+					},
+					{
+						displayName: 'Address',
+						name: 'address',
+						type: 'string',
+						default: '',
+						required: true,
+						description: 'Full street address (max 255 characters)',
 					},
 					{
 						displayName: 'Postcode',
 						name: 'postcode',
 						type: 'string',
 						default: '',
-							required:	true,
-						description: 'Customer postal code',
-					},
-					{
-						displayName: 'Surname',
-						name: 'surname',
-						type: 'string',
-						default: '',
-							required:	true,
-						description: 'Customer surname',
+						required: false,
+						description: 'Postal / ZIP code (max 255 characters)',
 					},
 				],
 			},
@@ -157,7 +159,7 @@ export const shipmentFields: INodeProperties[] = [
 		typeOptions: {
 			loadOptionsMethod: 'getWarehouses',
 		},
-		description: 'The warehouse to use for the shipment. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		description: 'Warehouse linked to your account. The warehouse_id is required and must belong to your account. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. <a href="https://dev.kargoentegrator.com/api/settings/depo-listeleme">Warehouse Docs</a>.',
 	},
 	{
 		displayName: 'Cargo Company Name or ID',
@@ -174,40 +176,7 @@ export const shipmentFields: INodeProperties[] = [
 		typeOptions: {
 			loadOptionsMethod: 'getCargoCompanies',
 		},
-		description: 'The cargo company to use for the shipment. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
-	},
-	{
-		displayName: 'Package Weight (Kg)',
-		name: 'weight',
-		type: 'number',
-		typeOptions: {
-			minValue: 0,
-			numberPrecision: 2,
-		},
-		displayOptions: {
-			show: {
-				resource: ['shipment'],
-				operation: ['create'],
-			},
-		},
-		default: 1,
-		description: 'Weight of the package in kilograms',
-	},
-	{
-		displayName: 'Package Count',
-		name: 'packageCount',
-		type: 'number',
-		typeOptions: {
-			minValue: 1,
-		},
-		displayOptions: {
-			show: {
-				resource: ['shipment'],
-				operation: ['create'],
-			},
-		},
-		default: 1,
-		description: 'Number of packages',
+		description: 'Cargo integration linked to your account. The cargo_integration_id is required and must belong to your account. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. <a href="https://dev.kargoentegrator.com/api/integrations/kargo-listeleme">Cargo Docs</a>.',
 	},
 	{
 		displayName: 'Package Type',
@@ -221,19 +190,19 @@ export const shipmentFields: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Document',
-				value: 'document',
-				description: 'Document package type',
-			},
-			{
 				name: 'Box',
 				value: 'box',
 				description: 'Box package type',
 			},
+			{
+				name: 'Document',
+				value: 'document',
+				description: 'Document / envelope package type',
+			},
 		],
-		default: 'document',
+		default: 'box',
 		required: true,
-		description: 'Type of the package',
+		description: 'Type of the package: "document" or "box"',
 	},
 	{
 		displayName: 'Payment Type',
@@ -259,7 +228,7 @@ export const shipmentFields: INodeProperties[] = [
 		],
 		default: 'cash_money',
 		required: true,
-		description: 'Payment method for the shipment',
+		description: 'Payment method: "cash_money" or "credit_card"',
 	},
 	{
 		displayName: 'Payor Type',
@@ -275,38 +244,34 @@ export const shipmentFields: INodeProperties[] = [
 			{
 				name: 'Sender',
 				value: 'sender',
-				description: 'Sender pays',
+				description: 'Sender pays for the shipment',
 			},
 			{
 				name: 'Receiver',
 				value: 'receiver',
-				description: 'Receiver pays',
+				description: 'Receiver pays for the shipment',
 			},
 		],
 		default: 'sender',
 		required: true,
-		description: 'Who will pay for the shipment',
+		description: 'Who pays for the shipment: "sender" or "receiver"',
 	},
-
-
-	// Additional fields
 	{
 		displayName: 'Platform ID',
 		name: 'platformId',
-		type: 'number',
+		type: 'string',
 		displayOptions: {
 			show: {
 				resource: ['shipment'],
 				operation: ['create'],
 			},
 		},
-		default: 6484981,
-		required: true,
-		description: 'Order ID',
+		default: '',
+		required: false,
+		description: 'Global order ID from the platform (e.g. Shopify global ID, WooCommerce order ID). Max 255 characters.',
 	},
-
 	{
-		displayName: 'Desi',
+		displayName: 'Desi (Volumetric Weight)',
 		name: 'desi',
 		type: 'number',
 		typeOptions: {
@@ -320,11 +285,11 @@ export const shipmentFields: INodeProperties[] = [
 			},
 		},
 		default: 1,
-		required: true,
-		description: 'Package desi value',
+		required: false,
+		description: 'Volumetric weight (desi) of the package',
 	},
 	{
-		displayName: 'KG',
+		displayName: 'Weight (kg)',
 		name: 'kg',
 		type: 'number',
 		typeOptions: {
@@ -338,8 +303,21 @@ export const shipmentFields: INodeProperties[] = [
 			},
 		},
 		default: 1,
-		required: true,
-		description: 'Package weight in kg',
+		required: false,
+		description: 'Actual weight of the package in kilograms',
+	},
+	{
+		displayName: 'Pay at Door',
+		name: 'isPayAtDoor',
+		type: 'boolean',
+		displayOptions: {
+			show: {
+				resource: ['shipment'],
+				operation: ['create'],
+			},
+		},
+		default: false,
+		description: 'Whether this is a cash-on-delivery (pay at door) shipment. When true, currency and total fields become required.',
 	},
 	{
 		displayName: 'Currency',
@@ -349,6 +327,7 @@ export const shipmentFields: INodeProperties[] = [
 			show: {
 				resource: ['shipment'],
 				operation: ['create'],
+				isPayAtDoor: [true],
 			},
 		},
 		options: [
@@ -370,33 +349,24 @@ export const shipmentFields: INodeProperties[] = [
 		],
 		default: 'TRY',
 		required: true,
-		description: 'Currency type',
+		description: 'Currency for pay-at-door amount. Required when Pay at Door is enabled.',
 	},
 	{
-		displayName: 'Total',
+		displayName: 'Total Amount',
 		name: 'total',
-		type: 'string',
+		type: 'number',
+		typeOptions: {
+			numberPrecision: 2,
+		},
 		displayOptions: {
 			show: {
 				resource: ['shipment'],
 				operation: ['create'],
+				isPayAtDoor: [true],
 			},
 		},
-		default: '',
-		description: 'Total amount (optional)',
-	},
-	{
-		displayName: 'Is Pay at Door',
-		name: 'isPayAtDoor',
-		type: 'boolean',
-		displayOptions: {
-			show: {
-				resource: ['shipment'],
-				operation: ['create'],
-			},
-		},
-		default: false,
-		description: 'Whether payment is at door',
+		default: 0,
+		description: 'Pay-at-door collection amount (max 2 decimal places). Required when Pay at Door is enabled.',
 	},
 	{
 		displayName: 'Note',
@@ -415,7 +385,85 @@ export const shipmentFields: INodeProperties[] = [
 		description: 'Additional notes for the shipment',
 	},
 
-	// Get operation fields
+	// ── Optional Settings (Options collection) ──
+	{
+		displayName: 'Options',
+		name: 'options',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
+		displayOptions: {
+			show: {
+				resource: ['shipment'],
+				operation: ['create'],
+			},
+		},
+		options: [
+			{
+				displayName: 'Custom Barcode',
+				name: 'createBarcode',
+				type: 'string',
+				default: '',
+				placeholder: 'e.g. 1234567890',
+				description: 'Assign a custom barcode / tracking number to the shipment. If left empty, the cargo company generates one automatically.',
+			},
+			{
+				displayName: 'Notification URL (Webhook)',
+				name: 'notificationUrl',
+				type: 'string',
+				default: '',
+				placeholder: 'https://your-n8n-instance.com/webhook/xxx',
+				description: 'Webhook URL for shipment status updates (picked up, in transit, delivered, etc.). You can paste the Kargo Entegratör Trigger node webhook URL here.',
+			},
+			{
+				displayName: 'Package Count',
+				name: 'packageCount',
+				type: 'number',
+				typeOptions: {
+					minValue: 1,
+				},
+				default: 1,
+				description: 'Number of packages/parcels for cumulative shipments. Used when combining multiple orders under a single barcode.',
+			},
+			{
+				displayName: 'Platform Display ID',
+				name: 'platformDId',
+				type: 'string',
+				default: '',
+				description: 'Store-specific order number (e.g. Shopify store order number). Max 255 characters.',
+			},
+			{
+				displayName: 'Barcode',
+				name: 'barcode',
+				type: 'string',
+				default: '',
+				description: 'Barcode value (max 255 characters)',
+			},
+			{
+				displayName: 'Waybill Number',
+				name: 'waybillNumber',
+				type: 'string',
+				default: '',
+				description: 'Waybill / dispatch number (max 255 characters)',
+			},
+			{
+				displayName: 'Invoice Number',
+				name: 'invoiceNumber',
+				type: 'string',
+				default: '',
+				description: 'Invoice number (max 255 characters)',
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				default: '',
+				description: 'Additional description for the shipment',
+			},
+		],
+	},
+
+	// ── Get operation fields ──
 	{
 		displayName: 'Shipment ID',
 		name: 'shipmentId',
@@ -430,14 +478,14 @@ export const shipmentFields: INodeProperties[] = [
 		required: true,
 		description: 'ID of the shipment to retrieve',
 	},
-	// Get All operation fields
+
+	// ── Get All operation fields ──
 	{
 		displayName: 'Limit',
 		name: 'limit',
 		type: 'number',
 		typeOptions: {
 			minValue: 1,
-
 		},
 		displayOptions: {
 			show: {
@@ -448,7 +496,8 @@ export const shipmentFields: INodeProperties[] = [
 		default: 50,
 		description: 'Max number of results to return',
 	},
-	// Print PDF operation fields
+
+	// ── Print PDF operation fields ──
 	{
 		displayName: 'Shipment IDs',
 		name: 'shipmentIds',
@@ -461,7 +510,7 @@ export const shipmentFields: INodeProperties[] = [
 		},
 		default: '',
 		required: true,
-		description: 'Comma-separated list of shipment IDs to generate PDF for (e.g., 35,34)',
+		description: 'Comma-separated list of shipment IDs to generate PDF for (e.g. "35,34"). Multiple IDs are sent as shipments[0], shipments[1], etc. <a href="https://dev.kargoentegrator.com/api/print-pdf">API Docs</a>.',
 	},
 	{
 		displayName: 'Output Format',

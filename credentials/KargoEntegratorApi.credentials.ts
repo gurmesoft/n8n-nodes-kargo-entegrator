@@ -8,7 +8,7 @@ import {
 export class KargoEntegratorApi implements ICredentialType {
 	name = 'kargoEntegratorApi';
 	displayName = 'Kargo Entegratör API';
-	documentationUrl = 'https://documenter.getpostman.com/view/25047990/2sAY4vg2RR';
+	documentationUrl = 'https://dev.kargoentegrator.com/authentication';
 	baseUrl = 'https://app.kargoentegrator.com/api';
 	properties: INodeProperties[] = [
 		{
@@ -20,11 +20,11 @@ export class KargoEntegratorApi implements ICredentialType {
 			},
 			default: '',
 			required: true,
-			description: 'API key from Kargo Entegratör. Get it from https://app.kargoentegrator.com',
+			description: 'Your Bearer API key from Kargo Entegratör. Get it from <a href="https://app.kargoentegrator.com">app.kargoentegrator.com</a> panel. See <a href="https://dev.kargoentegrator.com/authentication">authentication docs</a> for details.',
 		},
 	];
 
-	// Base URL sabit olarak tanımlandı
+	// Base URL is defined as a constant
 	getBaseUrl(): string {
 		return 'https://app.kargoentegrator.com/api';
 	}

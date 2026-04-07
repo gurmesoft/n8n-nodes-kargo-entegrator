@@ -15,14 +15,14 @@ export const cargoOperations: INodeProperties[] = [
 			{
 				name: 'Get Many',
 				value: 'getAll',
-				description: 'Get many cargo companies',
-				action: 'Get many cargo companies',
+				description: 'List all cargo company integrations linked to your account. <a href="https://dev.kargoentegrator.com/api/integrations/kargo-listeleme">API Docs</a>.',
+				action: 'Get many cargo integrations',
 			},
 			{
 				name: 'Get',
 				value: 'get',
-				description: 'Get specific cargo company',
-				action: 'Get a cargo company',
+				description: 'Get a specific cargo company integration by ID',
+				action: 'Get a cargo integration',
 			},
 		],
 		default: 'getAll',
@@ -32,7 +32,7 @@ export const cargoOperations: INodeProperties[] = [
 
 export const cargoFields: INodeProperties[] = [
 	{
-		displayName: 'Cargo Company ID',
+		displayName: 'Cargo Integration ID',
 		name: 'cargoId',
 		type: 'number',
 		displayOptions: {
@@ -43,6 +43,6 @@ export const cargoFields: INodeProperties[] = [
 		},
 		default: 1,
 		required: true,
-		description: 'ID of the cargo company to retrieve',
+		description: 'ID of the cargo integration to retrieve. You can find this in the cargo integrations page of your account.',
 	},
 ];

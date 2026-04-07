@@ -28,7 +28,7 @@ import { executeSettingsActions } from './actions/settings.actions';
 import packageJson from '../../package.json';
 const nodeVersion: string = packageJson.version;
 
-// Her API key için sadece bir kez ping gönder (n8n process lifetime)
+// Send tracking ping only once per API key (n8n process lifetime)
 const _pingedKeys = new Set<string>();
 
 export class KargoEntegrator implements INodeType {
@@ -40,6 +40,7 @@ export class KargoEntegrator implements INodeType {
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Interact with Kargo Entegratör API for shipment management',
+		documentationUrl: 'https://dev.kargoentegrator.com',
 		defaults: {
 			name: 'Kargo Entegratör',
 		},
@@ -59,29 +60,29 @@ export class KargoEntegrator implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
-						name: 'Cargo',
+						name: 'Cargo Integration',
 						value: 'cargo',
-						description: 'Get cargo companies information',
+						description: 'List cargo company integrations linked to your account. <a href="https://dev.kargoentegrator.com/api/integrations/kargo-listeleme">API Docs</a>.',
 					},
 					{
 						name: 'Return',
 						value: 'return',
-						description: 'Manage return shipments',
+						description: 'Create and manage return shipments. <a href="https://dev.kargoentegrator.com/api/returneds/olusturma">API Docs</a>.',
 					},
 					{
 						name: 'Setting',
 						value: 'settings',
-						description: 'Get system settings',
+						description: 'Get shipment and return settings for your account',
 					},
 					{
 						name: 'Shipment',
 						value: 'shipment',
-						description: 'Manage shipments',
+						description: 'Create, list, and manage shipments. <a href="https://dev.kargoentegrator.com/api/shipments/olusturma">API Docs</a>.',
 					},
 					{
 						name: 'Warehouse',
 						value: 'warehouse',
-						description: 'Manage warehouses',
+						description: 'List warehouses linked to your account. <a href="https://dev.kargoentegrator.com/api/settings/depo-listeleme">API Docs</a>.',
 					},
 				],
 				default: 'shipment',
@@ -213,7 +214,7 @@ export class KargoEntegrator implements INodeType {
 		const returnData: INodeExecutionData[] = [];
 		const credentials = await this.getCredentials('kargoEntegratorApi');
 
-		// API key kaydedildikten sonra ilk çalışmada tracking ping gönder
+		// Send tracking ping on first execution after API key is saved
 		const apiKey = credentials.apiKey as string;
 		if (apiKey && !_pingedKeys.has(apiKey)) {
 			_pingedKeys.add(apiKey);

@@ -15,13 +15,13 @@ export const warehouseOperations: INodeProperties[] = [
 			{
 				name: 'Get Many',
 				value: 'getAll',
-				description: 'Get many warehouses',
+				description: 'List all warehouses linked to your account. Use this to get warehouse_id values for shipment creation. <a href="https://dev.kargoentegrator.com/api/settings/depo-listeleme">API Docs</a>.',
 				action: 'Get many warehouses',
 			},
 			{
 				name: 'Get',
 				value: 'get',
-				description: 'Get specific warehouse',
+				description: 'Get a specific warehouse by ID',
 				action: 'Get a warehouse',
 			},
 		],
@@ -43,6 +43,6 @@ export const warehouseFields: INodeProperties[] = [
 		},
 		default: 1,
 		required: true,
-		description: 'ID of the warehouse to retrieve',
+		description: 'ID of the warehouse to retrieve. You can find this in the warehouse addresses page of your account.',
 	},
 ];

@@ -27,17 +27,27 @@
 				{
 					"name": "Shipment",
 					"value": "shipment",
-					"description": "Manage shipments"
+					"description": "Create, list, and manage shipments"
 				},
 				{
-					"name": "Customer",
-					"value": "customer",
-					"description": "Manage customers"
+					"name": "Return",
+					"value": "return",
+					"description": "Create and manage return shipments"
 				},
 				{
-					"name": "Cargo",
+					"name": "Cargo Integration",
 					"value": "cargo",
-					"description": "Get cargo companies information"
+					"description": "List cargo company integrations"
+				},
+				{
+					"name": "Warehouse",
+					"value": "warehouse",
+					"description": "List warehouses linked to your account"
+				},
+				{
+					"name": "Setting",
+					"value": "settings",
+					"description": "Get shipment and return settings"
 				}
 			],
 			"default": "shipment",

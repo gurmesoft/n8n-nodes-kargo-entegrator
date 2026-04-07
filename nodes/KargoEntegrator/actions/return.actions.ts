@@ -10,68 +10,53 @@ export async function executeReturnActions(
 	let responseData;
 
 	if (operation === 'create') {
-		// Get parameters
 		const warehouseId = this.getNodeParameter('warehouseId', i);
 		const cargoCompanyId = this.getNodeParameter('cargoCompanyId', i);
 		const customerCollection = this.getNodeParameter('customer', i);
 		const returnDate = this.getNodeParameter('returnDate', i);
-		const returnReason = this.getNodeParameter('returnReason', i);
-		const weight = this.getNodeParameter('weight', i);
-		const packageCount = this.getNodeParameter('packageCount', i);
+		const returnReason = this.getNodeParameter('returnReason', i, '') as string;
 		const packageType = this.getNodeParameter('packageType', i);
 		const paymentType = this.getNodeParameter('paymentType', i);
 		const payorType = this.getNodeParameter('payorType', i);
-		const platformId = this.getNodeParameter('platformId', i);
+		const platformId = this.getNodeParameter('platformId', i, '') as string;
 		const desi = this.getNodeParameter('desi', i);
 		const kg = this.getNodeParameter('kg', i);
-		const currency = this.getNodeParameter('currency', i);
-		const total = this.getNodeParameter('total', i) || '';
-		const isPayAtDoor = this.getNodeParameter('isPayAtDoor', i);
-		const note = this.getNodeParameter('note', i) || '';
+		const isPayAtDoor = this.getNodeParameter('isPayAtDoor', i) as boolean;
+		const note = this.getNodeParameter('note', i, '') as string;
 
 		// Extract customer data from fixedCollection
 		let customerData: any = {};
 		if (customerCollection && typeof customerCollection === 'object') {
 			const collection = customerCollection as any;
 			if (collection.customerDetails) {
-				// If customerDetails is an array, take the first element
 				if (Array.isArray(collection.customerDetails)) {
 					customerData = collection.customerDetails[0] || {};
 				} else {
-					// If customerDetails is a direct object
 					customerData = collection.customerDetails;
 				}
 			} else {
-				// Fallback: customerCollection might be the data directly
 				customerData = collection;
 			}
 		}
 
 		// Validate required customer fields
-		const requiredFields = ['name', 'surname', 'phone', 'email', 'country', 'postcode', 'city', 'district', 'address'];
+		const requiredFields = ['name', 'surname', 'phone', 'email', 'country', 'city', 'district', 'address'];
 		for (const field of requiredFields) {
 			if (!customerData[field] || (customerData as any)[field].trim() === '') {
 				throw new Error(`Customer ${field} is required and cannot be empty`);
 			}
 		}
 
-		// Create return shipment
-		const body = {
+		const body: Record<string, any> = {
 			warehouse_id: warehouseId,
 			cargo_integration_id: cargoCompanyId,
 			return_at: returnDate,
-			return_reason: returnReason,
-			weight: weight,
-			package_count: packageCount,
 			package_type: packageType,
 			payment_type: paymentType,
 			payor_type: payorType,
-			platform_id: platformId,
 			platform: 'n8n',
 			desi: desi,
 			kg: kg,
-			currency: currency,
-			total: total,
 			is_pay_at_door: isPayAtDoor,
 			note: note,
 			customer: {
@@ -80,12 +65,25 @@ export async function executeReturnActions(
 				phone: customerData.phone,
 				email: customerData.email,
 				country: customerData.country,
-				postcode: customerData.postcode,
+				postcode: customerData.postcode || '',
 				city: customerData.city,
 				district: customerData.district,
 				address: customerData.address,
 			},
 		};
+
+		if (returnReason) {
+			body.return_reason = returnReason;
+		}
+		if (platformId) {
+			body.platform_id = platformId;
+		}
+
+		// Pay at door fields
+		if (isPayAtDoor) {
+			body.currency = this.getNodeParameter('currency', i);
+			body.total = this.getNodeParameter('total', i);
+		}
 
 		responseData = await this.helpers.httpRequestWithAuthentication.call(
 			this,
@@ -98,7 +96,6 @@ export async function executeReturnActions(
 			}
 		);
 	} else if (operation === 'get') {
-		// Get return shipment
 		const returnId = this.getNodeParameter('returnId', i);
 		responseData = await this.helpers.httpRequestWithAuthentication.call(
 			this,
@@ -110,7 +107,6 @@ export async function executeReturnActions(
 			}
 		);
 	} else if (operation === 'getAll') {
-		// Get all return shipments
 		responseData = await this.helpers.httpRequestWithAuthentication.call(
 			this,
 			'kargoEntegratorApi',
@@ -121,10 +117,9 @@ export async function executeReturnActions(
 			}
 		);
 	} else if (operation === 'printReturnedPdf') {
-		// Print returned PDF
 		const returnId = this.getNodeParameter('returnId', i);
 		const outputFormat = this.getNodeParameter('outputFormat', i, 'binary') as string;
-		
+
 		const pdfBuffer = await this.helpers.httpRequestWithAuthentication.call(
 			this,
 			'kargoEntegratorApi',
@@ -134,14 +129,13 @@ export async function executeReturnActions(
 				headers: {
 					Accept: 'application/pdf',
 				},
-				encoding: 'arraybuffer', // For binary data
+				encoding: 'arraybuffer',
 			}
 		);
 
 		const fileName = `return_${returnId}.pdf`;
-		
+
 		if (outputFormat === 'base64') {
-			// Return as JSON with base64 string and metadata
 			return {
 				json: {
 					pdfData: pdfBuffer.toString('base64'),
@@ -149,38 +143,29 @@ export async function executeReturnActions(
 					mimeType: 'application/pdf',
 					size: pdfBuffer.length,
 				},
-				pairedItem: {
-					item: i,
-				},
+				pairedItem: { item: i },
 			};
 		} else {
-			// Return as binary data
 			const binaryData = await this.helpers.prepareBinaryData(
 				pdfBuffer,
 				fileName,
 				'application/pdf'
 			);
-			
+
 			return {
 				json: {
 					fileName: fileName,
 					mimeType: 'application/pdf',
 					size: pdfBuffer.length,
 				},
-				binary: {
-					data: binaryData,
-				},
-				pairedItem: {
-					item: i,
-				},
+				binary: { data: binaryData },
+				pairedItem: { item: i },
 			};
 		}
 	}
 
 	return {
 		json: responseData,
-		pairedItem: {
-			item: i,
-		},
+		pairedItem: { item: i },
 	};
 }
