@@ -158,7 +158,7 @@ export const returnFields: INodeProperties[] = [
 		typeOptions: {
 			loadOptionsMethod: 'getWarehouses',
 		},
-		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 	},
 	{
 		displayName: 'Cargo Company Name or ID',
@@ -175,7 +175,7 @@ export const returnFields: INodeProperties[] = [
 		typeOptions: {
 			loadOptionsMethod: 'getCargoCompanies',
 		},
-		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 	},
 	{
 		displayName: 'Return Date',

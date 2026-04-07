@@ -15,7 +15,7 @@ export const cargoOperations: INodeProperties[] = [
 			{
 				name: 'Get Many',
 				value: 'getAll',
-				description: 'List all cargo company integrations linked to your account. <a href="https://dev.kargoentegrator.com/api/integrations/kargo-listeleme">API Docs</a>.',
+				description: 'List many cargo company integrations linked to your account. <a href="https://dev.kargoentegrator.com/api/integrations/kargo-listeleme">API Docs</a>.',
 				action: 'Get many cargo integrations',
 			},
 			{
