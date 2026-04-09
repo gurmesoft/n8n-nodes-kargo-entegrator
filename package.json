@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-kargo-entegrator",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "N8N node for Kargo Entegratör API integration - create shipments and returns",
   "keywords": [
     "n8n-community-node-package"
