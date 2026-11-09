@@ -1,5 +1,11 @@
 # Değişiklik Günlüğü
 
+## [0.1.5] - 2026-11-09
+
+### Düzeltildi
+- İade PDF Yazdır: istek `/api/print-returned-pdf/{id}` yerine doğru biçim olan `/api/print-returned-pdf?returneds[0]={id}` adresine gönderiliyor (önceki sürüm 404 dönüyordu)
+- İade PDF Yazdır işleminin dokümantasyon bağlantısı `/api/returneds/etiket-yazdirma` sayfasına yönlendirildi
+
 ## [0.1.2] - 2026-04-07
 
 ### Değiştirildi

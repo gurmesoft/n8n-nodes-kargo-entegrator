@@ -33,7 +33,7 @@ export const returnOperations: INodeProperties[] = [
 			{
 				name: 'Print Return PDF',
 				value: 'printReturnedPdf',
-				description: 'Generate PDF label for a return shipment. <a href="https://dev.kargoentegrator.com/api/print-pdf">API Docs</a>.',
+				description: 'Generate PDF label for a return shipment. <a href="https://dev.kargoentegrator.com/api/returneds/etiket-yazdirma">API Docs</a>.',
 				action: 'Print return PDF',
 			},
 		],

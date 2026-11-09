@@ -125,7 +125,7 @@ export async function executeReturnActions(
 			'kargoEntegratorApi',
 			{
 				method: 'GET',
-				url: `${baseUrl}/print-returned-pdf/${returnId}`,
+				url: `${baseUrl}/print-returned-pdf?returneds[0]=${returnId}`,
 				headers: {
 					Accept: 'application/pdf',
 				},
